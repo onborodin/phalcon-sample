@@ -1,18 +1,21 @@
 <?php
 
 use Phalcon\DI;
-
 use Phalcon\Loader;
-use Phalcon\Mvc\Router;
+use Phalcon\Di\FactoryDefault;
+
 
 use Phalcon\Mvc\Url as UrlProvider;
 
+use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Dispatcher;
-use Phalcon\Http\Response;
-use Phalcon\Http\Request;
 use Phalcon\Mvc\View;
 
-use Phalcon\Db\Adapter\Pdo\Mysql as Database;
+use Phalcon\Http\Response;
+use Phalcon\Http\Request;
+
+use Phalcon\Db\Adapter\Pdo\Sqlite as Database;
+
 use Phalcon\Mvc\Application as Application;
 use Phalcon\Mvc\Model\Metadata\Memory as MemoryMetadata;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
@@ -20,16 +23,17 @@ use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Cache\Backend\File as BackFile;
 use Phalcon\Cache\Frontend\Data as FrontData;
 
+use Phalcon\Config;
+
+define('BASE_PATH', realpath(dirname(__FILE__) . '/../'));
+define('APP_PATH', BASE_PATH . '/app');
+
 
 class MyApplication extends Application {
 
     protected function registerServices() {
-        $di = new DI();
 
-        //$di->set('config', function () {
-        //    $config = require '../app/config/config.php';
-        //    return $config;
-        //});
+        $di = new FactoryDefault();
 
         $di->set('viewCache', 
             function () {
@@ -39,12 +43,11 @@ class MyApplication extends Application {
 
                 $cache = new BackFile(
                         $frontCache, [
-                        'cacheDir' => '../app/cache/',
+                        'cacheDir' => BASE_PATH . '/cache/',
                 ]);
                 return $cache;
             }
         );
-
 
         $di->set("router", 
             function () {
@@ -61,11 +64,6 @@ class MyApplication extends Application {
                         'action' => 'index' 
                 ]);
 
-                //$router->add('/products/list', [
-                //        'controller' => 'products',
-                //        'action' => 'list'
-                //]);
-
                 $router->notFound([
                         'controller' => 'index',
                         'action' => 'notfound'
@@ -76,24 +74,6 @@ class MyApplication extends Application {
                 ]);
                 return $router;
         });
-
-        $di->set("dispatcher", 
-            function () {
-                return new Dispatcher();
-            }
-        );
-
-        $di->set("response", 
-            function () {
-                return new Response();
-            }
-        );
-
-        $di->set("request",
-            function () {
-                return new Request();
-            }
-        );
 
         $di->set('url',
             function () {
@@ -106,7 +86,7 @@ class MyApplication extends Application {
         $di->set("view",
             function () {
                 $view = new View();
-                $viewsDir = "../app/views/";
+                $viewsDir = APP_PATH . "/views/";
                 $view->setViewsDir($viewsDir);
                     return $view;
             }
@@ -115,24 +95,8 @@ class MyApplication extends Application {
         $di->set("db",
             function () {
                 return new Database(                    [
-                        "adapter"  => "Mysql",
-                        "host"     => "localhost",
-                        "username" => "phalcon",
-                        "password" => "pazzword",
-                        "dbname"   => "phalcon",
+                        "dbname" => BASE_PATH . "/phalcon.db",
                 ]);
-            }
-        );
-
-        $di->set("modelsMetadata",
-            function () {
-                return new MemoryMetaData();
-            }
-        );
-
-        $di->set("modelsManager",
-            function () {
-                return new ModelsManager();
             }
         );
 
@@ -142,8 +106,8 @@ class MyApplication extends Application {
     protected function registerAutoloaders() {
         $loader = new Loader();
         $loader->registerDirs([
-                "../app/controllers/",
-                "../app/models/",
+                APP_PATH . "/controllers/",
+                APP_PATH . "/models/",
         ]);
         $loader->register();
     }
@@ -159,11 +123,12 @@ class MyApplication extends Application {
 try {
     $app = new MyApplication();
     $app->main();
+
 } catch (\Exception $e) {
     $response = new Response();
-    $response->setContentType('text/plain', 'UTF-8');
+    $response->setContentType('text/html', 'UTF-8');
     $response->setStatusCode(404);
-    $response->setContent("Exeption: " . $e->getMessage());
+    $response->setContent("<html><pre>Exeption: " . $e->getMessage() . "</pre></html>");
     $response->send();
 }
 #EOF

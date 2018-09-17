@@ -6,9 +6,9 @@ use Phalcon\Db\Reference;
 use Phalcon\Mvc\Model\Migration;
 
 /**
- * Class ProductsMigration_100
+ * Class FactoryMigration_101
  */
-class ProductsMigration_100 extends Migration
+class FactoryMigration_101 extends Migration
 {
     /**
      * Define the table structure
@@ -17,7 +17,7 @@ class ProductsMigration_100 extends Migration
      */
     public function morph()
     {
-        $this->morphTable('products', [
+        $this->morphTable('factory', [
                 'columns' => [
                     new Column(
                         'id',
@@ -35,7 +35,7 @@ class ProductsMigration_100 extends Migration
                         [
                             'type' => Column::TYPE_VARCHAR,
                             'notNull' => true,
-                            'size' => 70,
+                            'size' => 64,
                             'after' => 'id'
                         ]
                     )
@@ -45,7 +45,7 @@ class ProductsMigration_100 extends Migration
                 ],
                 'options' => [
                     'TABLE_TYPE' => 'BASE TABLE',
-                    'AUTO_INCREMENT' => '26042',
+                    'AUTO_INCREMENT' => '161',
                     'ENGINE' => 'InnoDB',
                     'TABLE_COLLATION' => 'utf8mb4_general_ci'
                 ],
@@ -60,7 +60,11 @@ class ProductsMigration_100 extends Migration
      */
     public function up()
     {
-
+        $this->batchInsert('factory', [
+                'id',
+                'name'
+            ]
+        );
     }
 
     /**
@@ -70,7 +74,7 @@ class ProductsMigration_100 extends Migration
      */
     public function down()
     {
-
+        $this->batchDelete('factory');
     }
 
 }

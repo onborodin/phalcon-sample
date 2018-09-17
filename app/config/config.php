@@ -9,12 +9,14 @@ define('APP_PATH', BASE_PATH . '/app');
 
 return new Config([
     'database' => [
-        'adapter'     => 'Mysql',
-        'host'        => 'localhost',
-        'username'    => 'phalcon',
-        'password'    => 'pazzword',
-        'dbname'      => 'phalcon',
-        'charset'     => 'utf8',
+#        'adapter'     => 'Mysql',
+#        'host'        => 'localhost',
+#        'username'    => 'phalcon',
+#        'password'    => 'pazzword',
+#        'dbname'      => 'phalcon',
+#        'charset'     => 'utf8',
+        'adapter'     => 'Sqlite',
+        'dbname' => BASE_PATH . '/var/www/dev/phalcon.db',
     ],
     'application' => [
         'appDir'         => APP_PATH . '/',
