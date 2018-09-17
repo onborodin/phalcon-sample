@@ -2,7 +2,6 @@
 #
 # $Id$
 #
-
 use Phalcon\Mvc\Controller;
 
 class FactoryController extends BaseJSONController {
@@ -17,9 +16,9 @@ class FactoryController extends BaseJSONController {
         ]);
     }
 
-    public function indexAction() {
-        return $this->listAction();
-    }
+    //public function indexAction() {
+    //    return $this->listAction();
+    //}
 
     public function addAction() {
         $name = $this->request->get('name');

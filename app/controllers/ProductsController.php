@@ -7,12 +7,6 @@ use Phalcon\Mvc\Controller;
 
 class ProductsController extends BaseJSONController {
 
-    public function sendJson($data) {
-        $this->view->disable();
-        $this->response->setJsonContent($data);
-        return $this->response;
-    }
-
     public function listAction() {
         $products = new Products;
         $list = $products->find();
@@ -23,9 +17,9 @@ class ProductsController extends BaseJSONController {
         ]);
     }
 
-    public function indexAction() {
-        return $this->listAction();
-    }
+    //public function indexAction() {
+    //    return $this->listAction();
+    //}
 
     public function addAction() {
         $name = $this->request->get('name');
