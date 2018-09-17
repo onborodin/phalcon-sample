@@ -1,6 +1,6 @@
 <?php
 
-use \Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model;
 
 class Factory extends Model {
 
