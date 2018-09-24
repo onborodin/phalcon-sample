@@ -1,6 +1,5 @@
+<!- $Id ->
 <!doctype html>
-<!-- $Id: index.html,v 1.2 2018/05/16 11:12:02 root Exp root $ -->
-<!-- $Author: root $ -->
 
 <html class="no-js" lang="en" dir="ltr">
     <head>
@@ -9,7 +8,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Phalcon App</title>
 
-        <link rel="stylesheet" href="/icons/foundation-icons.css">
         <link rel="stylesheet" href="/css/foundation-float.min.css">
         <link rel="stylesheet" href="/css/app.css">
 
@@ -19,11 +17,13 @@
 
     <body>
 
-        <div class="title-bar">
-            <button class="menu-icon" type="button" data-toggle="topbar-menu"></button>
-            <ul class="dropdown menu" data-dropdown-menu>
-                <li class="menu-text">Phalcon App</li>
-            </ul>
+        <div class="top-bar" id="topbar-menu">
+            <div class="top-bar-left">
+                <ul class="dropdown menu" data-dropdown-menu>
+                    <li class="menu-text">PhalconApp</li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </div>
         </div>
 
         <div class="row">&nbsp;</div>
@@ -37,7 +37,7 @@
         </div>
         <hr/>
         <div class="row">
-            <p class="text-center"><a href="https://wiki.unix7.org">Made in Japan</a></small></p>
+            <p class="text-center"><small>Made by <a href="http://wiki.unix7.org">Borodin Oleg</a></small></p>
         </div>
         <script src="/js/app.js"></script>
     </body>

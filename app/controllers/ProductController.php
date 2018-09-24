@@ -5,27 +5,23 @@
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Controller;
 
-class ProductsController extends BaseJSONController {
+class ProductController extends BaseJSONController {
 
     public function listAction() {
-        $products = new Products;
-        $list = $products->find();
-        $count = $products->count();
+        $product = new Product;
+        $list = $product->find();
+        $count = $product->count();
         return $this->sendJson([
                         'count' => $count,
-                        'products' => $list
+                        'product' => $list
         ]);
     }
-
-    //public function indexAction() {
-    //    return $this->listAction();
-    //}
 
     public function addAction() {
         $name = $this->request->get('name');
         $factory_id = $this->request->get('factory_id', null, 0);
 
-        $product = new Products;
+        $product = new Product;
 
         $result = $product->create([
                     'name' => $name,
@@ -41,11 +37,11 @@ class ProductsController extends BaseJSONController {
     public function dropAction() {
         $id = $this->request->get('id', null, 0);
 
-        $products = new Products;
-        $product = $products->findFirst($id);
+        $product = new Product;
+        $productList = $product->findFirst($id);
 
-        if ($product) {
-            if ($product->delete()) {
+        if ($productList) {
+            if ($productList->delete()) {
                 return $this->sendSuccess($id);
             }
             return $this->sendError();
@@ -55,11 +51,11 @@ class ProductsController extends BaseJSONController {
 
     public function dropallAction() {
 
-        $products = new Products;
-        $product = $products->find();
+        $product = new Product;
+        $productList = $product->find();
 
-        if ($product) {
-            if ($product->delete()) {
+        if ($productList) {
+            if ($productList->delete()) {
                 return $this->sendSuccess();
             }
             return $this->sendError();
