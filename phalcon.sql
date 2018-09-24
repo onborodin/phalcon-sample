@@ -35,12 +35,20 @@ INSERT INTO products VALUES(8,'123',6);
 INSERT INTO products VALUES(9,'123',6);
 INSERT INTO products VALUES(10,'123',6);
 INSERT INTO products VALUES(11,'123',6);
-COMMIT;
 
 CREATE TABLE IF NOT EXISTS "user" (
-	id INTEGER NOT NULL,
-	login VARCHAR(64) NOT NULL,
-	password VARCHAR(64) NOT NULL,
-	name VARCHAR(64) NOT NULL,
-	PRIMARY KEY ("id")
+        id INTEGER NOT NULL,
+        login VARCHAR(64) NOT NULL,
+        name VARCHAR(64) NOT NULL,
+        password VARCHAR(64) NOT NULL,
+        PRIMARY KEY ("id")
 );
+INSERT INTO user VALUES(146,'Kennaway','Kennaway','password');
+INSERT INTO user VALUES(147,'Kerberos','Kerberos','password');
+INSERT INTO user VALUES(149,'Kerneltrap','Kuriyama','password');
+INSERT INTO user VALUES(150,'LAN','LAN','password');
+INSERT INTO user VALUES(151,'LDAP','LDAP','password');
+INSERT INTO user VALUES(152,'LGPL','LGPL','password');
+INSERT INTO user VALUES(153,'LLC','LLC','password');
+INSERT INTO user VALUES(154,'LOMAC','LOMAC','password');
+COMMIT;

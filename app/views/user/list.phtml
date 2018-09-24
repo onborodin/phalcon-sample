@@ -1,20 +1,37 @@
 <!-- $Id$ -->
+
 <?
-$user = new Product;
+$user = new User;
 $list = $user->find([
-        'order' => 'name',
+        'order' => 'login',
         'limit' => 5
 ]);
 ?>
 
 <table class="hover" id="table">
+    <thead>
+        <tr>
+            <td>#</td>
+            <td>ID</td>
+            <td>Login</td>
+            <td>Name</td>
+            <td>Password</td>
+        </tr>
+    </thead>
     <tbody>
     <? foreach ($list as $user) { ?>
+        <? $n++; ?>
         <tr>
+
+            <td><?= $n ?></td>
+
             <td><?= $user->id ?></td>
+            <td><?= $user->login ?></td>
             <td><?= $user->name ?></td>
+            <td><?= $user->password ?></td>
         </tr>
     <? } ?>
     </tbody>
 </table>
+
 <!--EOF-->
