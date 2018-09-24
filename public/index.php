@@ -148,6 +148,12 @@ class MyApplication extends Application {
                         'action' => 'download'
                 ]);
 
+
+                $router->add('/user/list', [
+                        'controller' => 'user',
+                        'action' => 'list'
+                ]);
+
                 $router->add('/factory/list', [
                         'controller' => 'factory',
                         'action' => 'list'

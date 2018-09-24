@@ -1,0 +1,3 @@
+*.php   text ident
+*.phtml text ident
+*.volt  text ident
