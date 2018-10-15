@@ -1,37 +1,113 @@
-<!-- $Id$ -->
-
 <?
-$user = new User;
-$list = $user->find([
-        'order' => 'login',
-        'limit' => 5
+$domainId = $this->request->get('domain_id');
+$id = $this->request->get('id');
+
+$conditions;
+if ($domainId) $conditions = "domainId = $domainId";
+if ($id) $conditions = "id = $id";
+
+
+$list = User::find([
+        'order' => 'name',
+        'conditions' => $conditions
 ]);
 ?>
 
-<table class="hover" id="table">
-    <thead>
-        <tr>
-            <td>#</td>
-            <td>ID</td>
-            <td>Login</td>
-            <td>Name</td>
-            <td>Password</td>
-        </tr>
-    </thead>
-    <tbody>
-    <? foreach ($list as $user) { ?>
-        <? $n++; ?>
-        <tr>
+<h5 class="text-center">
+    <? $listURL = "/user/list";
+       $addURL = "/user/add/form";
+       if ($domainId) { 
+            $listURL .= "?domain_id=$domainId";
+            $addURL .= "?domain_id=$domainId";
+       }
+    ?>
 
-            <td><?= $n ?></td>
+    Users <a href="<?= $listURL ?>"><i class="fi-refresh"></i></a>
+    <a class="float-right button tiny" href="<?= $addURL ?>">
+        <i class="fi-plus"></i>
+    </a>
+</h5>
 
-            <td><?= $user->id ?></td>
-            <td><?= $user->login ?></td>
-            <td><?= $user->name ?></td>
-            <td><?= $user->password ?></td>
-        </tr>
-    <? } ?>
-    </tbody>
-</table>
+<? if ($domainId) { ?>
+    <table class="hover" id="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>name</th>
+                <th><i class="fi-address-book"></i></th>
+                <th><i class="fi-male-female"></i></th>
+                <th><i class="fi-pencil"></i></th>
+                <th><i class="fi-trash"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+        <? foreach ($list as $user) { ?>
+            <? $n++;
+               $fcName = $user->name.'@'.$user->domain->name;
+               $alias = new Alias;
+               $alias = $alias->find([
+                    'order' => 'name',
+                    'conditions' => "domainId = $user->domainId AND name = '$user->name'"
+                ]);
+                $aliasSymbol = '<i class="fi-plus"></i>';
+                $aliasURL = "/alias/add/form?domain_id=$user->domainId&name=$user->name";
+                if ($alias->count()) {
+                    $aliasSymbol = '<i class="fi-male-female"></i>';
+                    $aliasURL = "/alias/list?id=$user->id";
+                }
+            ?>
+            <tr>
+                <td><?= $n ?></td>
+                <td><?= $fcName ?></td>
+                <td><?= $user->gecos ?></td>
+                <td><a href="<?= $aliasURL ?>"> <?= $aliasSymbol ?> </a></td>
+                <td><a href="/user/update/form?id=<?= $user->id ?>"><i class="fi-pencil"></i></a></td>
+                <td><a href="/user/delete/form?id=<?= $user->id ?>"><i class="fi-trash"></i></a></td>
+            </tr>
+        <? } ?>
+        </tbody>
+    </table>
+<? } ?>
 
-<!--EOF-->
+<? if (!$domainId) { ?>
+    <table class="hover" id="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>name</th>
+                <th><i class="fi-male"></i></th>
+                <th><i class="fi-address-book"></i></th>
+                <th><i class="fi-male-female"></i></th>
+                <th><i class="fi-pencil"></i></th>
+                <th><i class="fi-trash"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+        <? foreach ($list as $user) { ?>
+            <? $n++;
+               $fcName = $user->name.'@'.$user->domain->name;
+               $alias = new Alias;
+               $alias = $alias->find([
+                    'order' => 'name',
+                    'conditions' => "domainId = $user->domainId AND name = '$user->name'"
+                ]);
+                $aliasSymbol = '<i class="fi-plus"></i>';
+                $aliasURL = "/alias/add/form?domain_id=$user->domainId&name=$user->name";
+                if ($alias->count()) {
+                    $aliasSymbol = '<i class="fi-male-female"></i>';
+                    $aliasURL = "/alias/list?id=$user->id";
+                }
+            ?>
+            <tr>
+                <td><?= $n ?></td>
+                <td><?= $fcName ?></td>
+                <td><a href="/user/list?domain_id=<?= $user->domainId ?>"><i class="fi-male"></i></a></td>
+                <td><?= $user->gecos ?></td>
+                <td><a href="<?= $aliasURL ?>"> <?= $aliasSymbol ?> </a></td>
+                <td><a href="/user/update/form?id=<?= $user->id ?>"><i class="fi-pencil"></i></a></td>
+                <td><a href="/user/delete/form?id=<?= $user->id ?>"><i class="fi-trash"></i></a></td>
+            </tr>
+        <? } ?>
+        </tbody>
+    </table>
+<? } ?>

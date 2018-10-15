@@ -2,21 +2,19 @@
 
 use Phalcon\Mvc\Model;
 
-class User extends Model {
+class Suser extends Model {
 
     public $id;
-    public $domainId;
     public $name;
     public $gecos;
     public $password;
 
     public function initialize() {
-        $this->setSource("user");
-        $this->belongsTo("domainId", "Domain", "id");
+        $this->setSource("suser");
     }
 
     public function getSource() {
-        return 'user';
+        return 'suser';
     }
 
     public static function find($parameters = null) {
@@ -30,7 +28,6 @@ class User extends Model {
     public function columnMap() {
         return [
             'id' => 'id',
-            'domain_id' => 'domainId',
             'name' => 'name',
             'gecos' => 'gecos',
             'password' => 'password'

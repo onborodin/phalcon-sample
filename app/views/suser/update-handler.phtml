@@ -1,0 +1,27 @@
+<?
+$id = $this->request->get('id');
+
+$suser = new Suser;
+$suser = $suser->findFirst($id);
+
+$suser->name = $this->request->get('name');
+$suser->password = $this->request->get('password');
+$suser->gecos = $this->request->get('gecos');
+
+$result = $suser->update();
+$suser = $suser->findFirst($id);
+?>
+
+
+<? if ($result) { ?>
+    <? $id = $suser->id; ?>
+    <div class="callout success">Suser <?= $suser->name ?> has been updated.</div>
+<? } ?>
+
+<? if (!$result) { ?>
+    <div class="callout alert">Suser <?= $suser->name ?> was not updated.</div>
+<? } ?>
+
+<a class="float-left button tiny" href="/suser/list">
+    <i class="fi-arrow-left"></i>
+</a>

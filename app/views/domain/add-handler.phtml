@@ -1,0 +1,21 @@
+<?
+$name = $this->request->get('name');
+$domain = new Domain;
+$domain->name = $name;
+$result = $domain->create([ 'name' => $name ]);
+?>
+
+
+<? if ($result) { ?>
+    <? $id = $domain->id; ?>
+    <div class="callout success">Domain <?= $name ?> has been added.</div>
+<? } ?>
+
+
+<? if (!$result) { ?>
+    <div class="callout alert">Domain <?= $name ?> was not added.</div>
+<? } ?>
+
+<a class="float-left button tiny" href="/domain/list">
+    <i class="fi-arrow-left"></i>
+</a>

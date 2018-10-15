@@ -1,0 +1,23 @@
+<?
+$id = $this->request->get('id');
+
+$domain = new Domain;
+$domain = $domain->findFirst($id);
+
+$domain->name = $this->request->get('name');
+$result = $domain->update();
+?>
+
+
+<? if ($result) { ?>
+    <? $id = $domain->id; ?>
+    <div class="callout success">Domain <?= $name ?> has been updated.</div>
+<? } ?>
+
+<? if (!$result) { ?>
+    <div class="callout alert">Domain <?= $name ?> was not updated.</div>
+<? } ?>
+
+<a class="float-left button tiny" href="/domain/list">
+    <i class="fi-arrow-left"></i>
+</a>

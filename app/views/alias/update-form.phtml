@@ -1,0 +1,47 @@
+<?
+$id = $this->request->get('id');
+
+$alias = new Alias;
+$alias = $alias->findFirst($id);
+$fcName = $alias->name.'@'.$alias->domain->name;
+?>
+
+<div class="grid-container">
+    <div class="grid-x grid-padding-x">
+      <div class="medium-6 medium-centered cell">
+
+        <form accept-charset="UTF-8" action="/alias/update/handler" method="get" data-abide novalidate>
+            <h5 class="text-center">Edit alias <?= $fcName ?></h5>
+
+            <input type="hidden" name="id" value="<?= $id ?>"/>
+
+            <label>Name
+                <input type="text" name="name" value="<?= $alias->name ?>" required pattern="[_\.a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]{2,42}"/>
+                <span class="form-error">Mandatory, 2 or more letter</span>
+            </label>
+
+            <label>Domain
+                <select name="domain_id" required>
+                    <option value="<?= $alias->domainId ?>"><?= $alias->domain->name ?></option>
+
+                    <? foreach($list as $domain) { ?>
+                        <option value="<?= $domain->id ?>"><?= $domain->name ?></option>
+                    <? } ?>
+
+                </select >
+            </label>
+
+            <label>Destinations list
+                <textarea rows="5" name="list" required pattern="[_\.a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]{2,42}"><?= $alias->list ?></textarea>
+                <span class="form-error">Mandatory, 6 or more letter</span>
+            </label>
+
+            <div class="text-center">
+                <button type="submit" class="button">Accept</button>
+                <a class="button" href="/alias/list">Escape</a>
+            </div>
+        </form>
+
+      </div>
+    </div>
+</div>

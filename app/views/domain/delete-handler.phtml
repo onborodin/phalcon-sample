@@ -1,0 +1,33 @@
+<?
+$id = $this->request->get('id');
+
+$user = new User;
+$user = $user->find([
+    'condition' => "domainId = $id"
+]);
+//$result = $user->delete();
+
+$alias = new Alias;
+$alias = $alias->find([
+    'condition' => "domainId = $id"
+]);
+//$result = $alias->delete();
+
+
+$domain = new Domain;
+$domain = $domain->findFirst($id);
+$result = $domain->delete();
+?>
+
+
+<? if ($result) { ?>
+    <div class="callout success">Domain <?= $name ?> has been deleted.</div>
+<? } ?>
+
+<? if (!$result) { ?>
+    <div class="callout alert">Domain <?= $name ?> was not deleted.</div>
+<? } ?>
+
+<a class="float-left button tiny" href="/domain/list">
+    <i class="fi-arrow-left"></i>
+</a>

@@ -1,0 +1,28 @@
+
+<?
+$id = $this->request->get('id');
+
+$user = new User;
+$user = $user->findFirst($id);
+
+$fcName = $user->name.'@'.$user->domain->name;
+?>
+
+<div class="grid-container">
+    <div class="grid-x grid-padding-x">
+      <div class="medium-6 medium-centered cell">
+
+        <form accept-charset="UTF-8" action="/user/delete/handler" method="get" data-abide novalidate>
+            <h5 class="text-center">Delete user <?= $fcName ?></h5>
+
+            <input type="hidden" name="id" value="<?= $id ?>"/>
+
+            <div class="text-center">
+                <button type="submit" class="button">Accept</button>
+                <a class="button" href="/user/list">Escape</a>
+            </div>
+        </form>
+
+      </div>
+    </div>
+</div>

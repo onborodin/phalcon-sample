@@ -1,0 +1,49 @@
+<?
+$domain = new Domain;
+$list = $domain->find([
+        'order' => 'name'
+]);
+?>
+
+<h5 class="text-center">
+    Domains <a href="/domain/list"><i class="fi-refresh"></i></a>
+    <a class="float-right button tiny" href="/domain/add/form">
+        <i class="fi-plus"></i>
+    </a>
+</h5>
+
+<table class="hover" id="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th><i class="fi-male"></i></th>
+            <th><i class="fi-male-female"></i></th>
+            <th><i class="fi-pencil"></i></th>
+            <th><i class="fi-trash"></i></th>
+        </tr>
+    </thead>
+    <tbody>
+    <? foreach ($list as $domain) { ?>
+        <? $n++;
+           $user = new User;
+           $userList = $user->find([
+                            'conditions' => "domainId = $domain->id"
+                        ]);
+           $alias = new Alias;
+           $aliasList = $alias->find([
+                            'conditions' => "domainId = $domain->id"
+                        ]);
+        ?>
+        <tr>
+            <td><?= $n ?></td>
+            <td><?= $domain->name ?></td>
+            <td><a href="/user/list?domain_id=<?= $domain->id ?>"><?= $userList->count() ?></a></td>
+            <td><a href="/alias/list?domain_id=<?= $domain->id ?>"><?= $aliasList->count() ?></a></td>
+            <td><a href="/domain/update/form?id=<?= $domain->id ?>"><i class="fi-pencil"></i></a></td>
+            <td><a href="/domain/delete/form?id=<?= $domain->id ?>"><i class="fi-trash"></i></a></td>
+
+        </tr>
+    <? } ?>
+    </tbody>
+</table>

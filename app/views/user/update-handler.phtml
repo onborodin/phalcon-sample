@@ -1,0 +1,32 @@
+<?
+
+$id = $this->request->get('id');
+
+$user = new User;
+$user = $user->findFirst($id);
+
+$user->name = $this->request->get('name');
+$user->password = $this->request->get('password');
+$user->domainId = $this->request->get('domain_id');
+$user->gecos = $this->request->get('gecos');
+
+$result = $user->update();
+
+$user = $user->findFirst($id);
+$fcName = $user->name.'@'.$user->domain->name;
+
+?>
+
+
+<? if ($result) { ?>
+    <? $id = $user->id; ?>
+    <div class="callout success">User <?= $fcName ?> has been updated.</div>
+<? } ?>
+
+<? if (!$result) { ?>
+    <div class="callout alert">User <?= $fcName ?> was not updated.</div>
+<? } ?>
+
+<a class="float-left button tiny" href="/user/list?domain_id=<?= $user->domainId ?>">
+    <i class="fi-arrow-left"></i>
+</a>

@@ -1,0 +1,55 @@
+<?
+$id = $this->request->get('id');
+
+$user = new User;
+$user = $user->findFirst($id);
+$fcName = $user->name.'@'.$user->domain->name;
+
+$domain = new Domain;
+$domainList = $domain->find();
+?>
+
+<div class="grid-container">
+    <div class="grid-x grid-padding-x">
+      <div class="medium-6 medium-centered cell">
+
+        <form accept-charset="UTF-8" action="/user/update/handler" method="get" data-abide novalidate>
+            <h5 class="text-center">Edit user <?= $fcName ?></h5>
+
+            <input type="hidden" name="id" value="<?= $id ?>"/>
+
+            <label>Name
+                <input type="text" name="name" value="<?= $user->name ?>" required pattern="[_\.a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]{2,42}"/>
+                <span class="form-error">Mandatory, 2 or more letter</span>
+            </label>
+
+            <label>Domain
+                <select name="domain_id" required>
+                    <option value="<?= $user->domainId ?>"><?= $user->domain->name ?></option>
+
+                    <? foreach($domainList as $domain) { ?>
+                        <option value="<?= $domain->id ?>"><?= $domain->name ?></option>
+                    <? } ?>
+
+                </select >
+            </label>
+
+            <label>Description
+                <input type="text" name="gecos" value="<?= $user->gecos ?>" required pattern="[_\.a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]{2,42}"/>
+                <span class="form-error">Mandatory, 2 or more letter</span>
+            </label>
+
+            <label>Password
+                <input type="text" name="password" value="<?= $user->password ?>" required pattern="[_\.a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]{5,42}"/>
+                <span class="form-error">Mandatory, 5 or more letter</span>
+            </label>
+
+            <div class="text-center">
+                <button type="submit" class="button">Accept</button>
+                <a class="button" href="/user/list">Escape</a>
+            </div>
+        </form>
+
+      </div>
+    </div>
+</div>

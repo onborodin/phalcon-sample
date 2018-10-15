@@ -1,0 +1,24 @@
+<?
+$suser = new Suser;
+
+$suser->name = $this->request->get('name');
+$suser->password = $this->request->get('password');
+$suser->gecos = $this->request->get('gecos');
+
+$result = $suser->create();
+?>
+
+
+<? if ($result) { ?>
+    <? $id = $suser->id; ?>
+    <div class="callout success">User <?= $suser->name ?> has been added.</div>
+<? } ?>
+
+
+<? if (!$result) { ?>
+    <div class="callout alert">User <?= $suser->name ?> was not added.</div>
+<? } ?>
+
+<a class="float-left button tiny" href="/suser/list">
+    <i class="fi-arrow-left"></i>
+</a>

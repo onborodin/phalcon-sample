@@ -1,0 +1,34 @@
+<?
+$list = Suser::find();
+?>
+
+<h5 class="text-center">
+    Super users <a href="/suser/list"><i class="fi-refresh"></i></a>
+    <a class="float-right button tiny" href="/suser/add/form">
+        <i class="fi-plus"></i>
+    </a>
+</h5>
+
+<table class="hover" id="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>name</th>
+            <th><i class="fi-address-book"></i></th>
+            <th><i class="fi-pencil"></i></th>
+            <th><i class="fi-trash"></i></th>
+        </tr>
+    </thead>
+    <tbody>
+    <? foreach ($list as $suser) { ?>
+        <? $n++; ?>
+        <tr>
+            <td><?= $n ?></td>
+            <td><?= $suser->name ?></td>
+            <td><?= $suser->gecos ?></td>
+            <td><a href="/suser/update/form?id=<?= $suser->id ?>"><i class="fi-pencil"></i></a></td>
+            <td><a href="/suser/delete/form?id=<?= $suser->id ?>"><i class="fi-trash"></i></a></td>
+        </tr>
+    <? } ?>
+    </tbody>
+</table>

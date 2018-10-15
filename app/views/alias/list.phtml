@@ -1,0 +1,93 @@
+<?
+$domainId = $this->request->get('domain_id');
+$id = $this->request->get('id');
+
+
+$conditions;
+if ($domainId) $conditions = "domainId = $domainId";
+if ($id) $conditions = "id = $id";
+
+$alias = new Alias;
+$list = $alias->find([
+        'order' => 'name',
+        'conditions' => $conditions
+]);
+?>
+
+<h5 class="text-center">
+    <? $listURL = "/alias/list";
+       $addURL = "/alias/add/form";
+       if ($domainId) { 
+            $listURL .= "?domain_id=$domainId";
+            $addURL .= "?domain_id=$domainId";
+       }
+    ?>
+    Aliases <a href="<?= $listURL ?>"><i class="fi-refresh"></i></a>
+    <a class="float-right button tiny" href="<?= $addURL ?>">
+        <i class="fi-plus"></i>
+    </a>
+
+</h5>
+
+<? if ($domainId) { ?>
+    <table class="hover" id="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>name</th>
+                <th><i class="fi-male-female"></i></th>
+                <th><i class="fi-pencil"></i></th>
+                <th><i class="fi-trash"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+        <? foreach ($list as $alias) { ?>
+            <? $n++; 
+                $fcName = $alias->name.'@'.$alias->domain->name;
+                $dstList = substr($alias->list, 0, 20);
+                if (strlen($alias->list) > 20) $dstList .= '...';
+            ?>
+            <tr>
+                <td><?= $n ?></td>
+                <td><?= $fcName ?></td>
+                <td><?= $dstList ?></td>
+                <td><a href="<?= makeReqURL("/alias/update/form", [ "id=".$alias->id ]) ?>" <i class="fi-pencil"></i></a></td>
+                <td><a href="<?= makeReqURL("/alias/delete/form", [ "id=".$alias->id ]) ?>" <i class="fi-trash"></i></a></td>
+            </tr>
+        <? } ?>
+        </tbody>
+    </table>
+
+<? } ?>
+
+<? if (!$domainId) { ?>
+    <table class="hover" id="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>name</th>
+                <th><i class="fi-male"></i></th>
+                <th><i class="fi-male-female"></i></th>
+                <th><i class="fi-pencil"></i></th>
+                <th><i class="fi-trash"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+        <? foreach ($list as $alias) { ?>
+            <? $n++; 
+                $fcName = $alias->name.'@'.$alias->domain->name;
+                $dstList = substr($alias->list, 0, 20);
+                if (strlen($alias->list) > 20) $dstList .= '...';
+            ?>
+            <tr>
+                <td><?= $n ?></td>
+                <td><?= $fcName ?></td>
+                <td><a href="/alias/list?domain_id=<?= $alias->domainId ?>"><i class="fi-male"></i></a></td>
+                <td><?= $dstList ?></td>
+                <td><a href="/alias/update/form?id=<?= $alias->id ?>" <i class="fi-pencil"></i></a></td>
+                <td><a href="/alias/delete/form?id=<?= $alias->id ?>" <i class="fi-trash"></i></a></td>
+            </tr>
+        <? } ?>
+        </tbody>
+    </table>
+<? } ?>

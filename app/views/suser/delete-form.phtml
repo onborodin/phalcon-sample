@@ -1,0 +1,26 @@
+
+<?
+$id = $this->request->get('id');
+
+$suser = new User;
+$suser = $suser->findFirst($id);
+?>
+
+<div class="grid-container">
+    <div class="grid-x grid-padding-x">
+      <div class="medium-6 medium-centered cell">
+
+        <form accept-charset="UTF-8" action="/suser/delete/handler" method="get" data-abide novalidate>
+            <h5 class="text-center">Delete suser <?= $suser->name ?></h5>
+
+            <input type="hidden" name="id" value="<?= $suser->id ?>"/>
+
+            <div class="text-center">
+                <button type="submit" class="button">Accept</button>
+                <a class="button" href="/suser/list">Escape</a>
+            </div>
+        </form>
+
+      </div>
+    </div>
+</div>

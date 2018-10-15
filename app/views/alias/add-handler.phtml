@@ -1,0 +1,27 @@
+<?
+$alias = new Alias;
+
+$alias->name = $this->request->get('name');
+$alias->domainId = $this->request->get('domain_id');
+$alias->list = $this->request->get('list');
+$fcName = $alias->name . '@' . $alias->domain->name;
+
+$result = $alias->create();
+?>
+
+
+<? if ($result) { ?>
+    <? $id = $alias->id; ?>
+    <div class="callout success">Alias <?= $fcName ?> has been added.</div>
+<? } ?>
+
+
+<? if (!$result) { ?>
+    <div class="callout alert">Alias <?= $fcName ?> was not added.</div>
+<? } ?>
+
+
+
+<a class="float-left button tiny" href="/alias/list?domain_id=<?= $alias->domainId ?>">
+    <i class="fi-arrow-left"></i>
+</a>

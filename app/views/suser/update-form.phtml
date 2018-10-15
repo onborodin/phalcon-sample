@@ -1,0 +1,40 @@
+<?
+$id = $this->request->get('id');
+
+$suser = new Suser;
+$suser = $suser->findFirst($id);
+?>
+
+<div class="grid-container">
+    <div class="grid-x grid-padding-x">
+      <div class="medium-6 medium-centered cell">
+
+        <form accept-charset="UTF-8" action="/suser/update/handler" method="get" data-abide novalidate>
+            <h5 class="text-center">Edit suser <?= $suser->name ?></h5>
+
+            <input type="hidden" name="id" value="<?= $id ?>"/>
+
+            <label>Name
+                <input type="text" name="name" value="<?= $suser->name ?>" required pattern="[_\.a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]{2,42}"/>
+                <span class="form-error">Mandatory, 2 or more letter</span>
+            </label>
+
+            <label>Description
+                <input type="text" name="gecos" value="<?= $suser->gecos ?>" required pattern="[_\.a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]{2,42}"/>
+                <span class="form-error">Mandatory, 2 or more letter</span>
+            </label>
+
+            <label>Password
+                <input type="text" name="password" value="<?= $suser->password ?>" required pattern="[_\.a-zA-Z0-9\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]{5,42}"/>
+                <span class="form-error">Mandatory, 5 or more letter</span>
+            </label>
+
+            <div class="text-center">
+                <button type="submit" class="button">Accept</button>
+                <a class="button" href="/suser/list">Escape</a>
+            </div>
+        </form>
+
+      </div>
+    </div>
+</div>

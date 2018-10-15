@@ -1,0 +1,24 @@
+<?
+$id = $this->request->get('id');
+
+$alias = new Alias;
+$alias = $alias->findFirst($id);
+$fcName = $alias->name.'@'.$alias->domain->name;
+
+$alias->name = $this->request->get('name');
+$alias->list = $this->request->get('list');
+$result = $alias->update();
+?>
+
+
+<? if ($result) { ?>
+    <div class="callout success">Alias <?= $fcName ?> has been updated.</div>
+<? } ?>
+
+<? if (!$result) { ?>
+    <div class="callout alert">Alias <?= $fcName ?> was not updated.</div>
+<? } ?>
+
+<a class="float-left button tiny" href="/alias/list?domain_id=<?= $alias->domainId ?>">
+    <i class="fi-arrow-left"></i>
+</a>
